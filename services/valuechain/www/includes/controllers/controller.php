@@ -50,7 +50,7 @@ if (isset($_POST['type'])) {
 		} else {
 			echo json_encode(array("message" => "Error removing piece", "code" => 1));
 		}
-	} else if ($_POST['type'] == "getCatalogs") {
+	} else if ($_POST['type'] == "getCatalogs") { # DATA FROM API GATEWAY
 		if (!isset($_SESSION["data"]))
 			$_SESSION["data"] = array();
 		$access_token = $_SESSION["access_token"];
@@ -77,7 +77,7 @@ if (isset($_POST['type'])) {
 		} else {
 			echo json_encode(array("message" => "Error removing data", "code" => 1));
 		}
-	} else if ($_POST["type"] == "createCatalog" && isset($_POST["name_C"]) && isset($_POST["group"])) {
+	} else if ($_POST["type"] == "createCatalog" && isset($_POST["name_C"]) && isset($_POST["group"])) { # DATA TO API GATEWAY
 		$access_token = $_SESSION["access_token"];
 		$data = array("catalogname" => $_POST["name_C"], "dispersemode" => "IDA", "encryption" => True, "fathers_token" => "/", "group" => $_POST["group"], "processed" => "false");
 		$curl = new Curl();
@@ -150,7 +150,6 @@ if (isset($_POST['type'])) {
 	} else if ($_POST["type"] == "deployPuzzle" && isset($_POST["id"])) {
 		$curl = new Curl();
 		$url = "http://" . VALUE_CHAIN_API . "/api/v1/workflows/run?access_token=" . $_SESSION['access_token'] . "&tokenuser=" . $_SESSION['tokenuser'];
-		#echo $url;
 		$response = $curl->post($url, ["id" => $_POST["id"], "platform" => $_POST["platform"]]);
 		#echo json_encode(["id" => $_POST["id"], "platform" => $_POST["platform"]]);
 		//print_r($response);
@@ -169,7 +168,6 @@ if (isset($_POST['type'])) {
 	} else if ($_POST["type"] == "stopPuzzle" && isset($_POST["id"]) && isset($_POST["puzzle_name"])) {
 		$curl = new Curl();
 		$url = "http://" . VALUE_CHAIN_API . "/api/v1/workflows/stop?access_token=" . $_SESSION['access_token'] . "&tokenuser=" . $_SESSION['tokenuser'] . "&apikey=" . $_SESSION['apikey'];
-		//echo $url;
 		$response = $curl->post($url, ["id" => $_POST["id"], "puzzle_name" => $_POST["puzzle_name"]]);
 		echo json_encode($response);
 	} else if ($_POST["type"] == "publishCatalog" && isset($_POST["user"]) && isset($_POST["catalog"])) {

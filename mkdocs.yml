@@ -41,6 +41,9 @@ theme:
         name: Switch to light mode
   language: en
 
+extra_css:
+  - stylesheets/extra.css
+
 nav:
   - Home: 
     - Introduction: index.md

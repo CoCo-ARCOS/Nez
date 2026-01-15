@@ -434,7 +434,10 @@ class ValueChain extends REST
     $this->response($this->json($res), $status);
   }
 
-
+ public function insert_source_catalog($catalog)
+  {
+    require_once("db/handler.php");
+  }
 
 
   public function workflows()
@@ -460,11 +463,6 @@ class ValueChain extends REST
         $this->response($this->json($msg), 406);
         break;
     }
-  }
-
-  public function insert_source_catalog($catalog)
-  {
-    require_once("db/handler.php");
   }
 
   public function workflowsPost()

@@ -91,9 +91,9 @@ class Gateway extends REST
         $url = URL_AUTH . '/auth/v1/users/create';
         $data['option'] = 'NEW';
         $data['username'] = $this->_request['username'];
-        $data['email'] =  $this->_request['email'];
-        $data['password'] =  $this->_request['password'];
-        $data['tokenorg'] =  $this->_request['tokenorg'];
+        $data['email'] = $this->_request['email'];
+        $data['password'] = $this->_request['password'];
+        $data['tokenorg'] = $this->_request['tokenorg'];
         $curl = new Curl();
         $response = $curl->post($url, $data);
         if (isset($response['code'])) {
@@ -128,9 +128,9 @@ class Gateway extends REST
         $data['option'] = 'NEW';
         $data['tokenuser'] = $this->_request['tokenuser'];
         $data['username'] = $this->_request['username'];
-        $data['email'] =  $this->_request['email'];
-        $data['password'] =  $this->_request['password'];
-        $data['tokenorg'] =  $this->_request['tokenorg'];
+        $data['email'] = $this->_request['email'];
+        $data['password'] = $this->_request['password'];
+        $data['tokenorg'] = $this->_request['tokenorg'];
         $data['keyuser'] = $this->_request['keyuser'];
         $data['passHash'] = $this->_request['passHash'];
         $data['access_token'] = $this->_request['access_token'];
@@ -170,7 +170,7 @@ class Gateway extends REST
         }
         $url = URL_AUTH . '/auth/v1/users?access_token=' . $actoken;
         $data['option'] = 'DELETE';
-        $data['tokenuser'] =  $tokenuser;
+        $data['tokenuser'] = $tokenuser;
         $curl = new Curl();
         $response = $curl->post($url, $data);
         if (isset($response['code'])) {
@@ -249,7 +249,7 @@ class Gateway extends REST
         }
         $url = URL_AUTH . '/auth/v1/users/login';
         $data['user'] = $this->_request['user'];
-        $data['password'] =  $this->_request['password'];
+        $data['password'] = $this->_request['password'];
         $curl = new Curl();
         $response = $curl->post($url, $data);
         if (isset($response['code'])) {
@@ -324,8 +324,8 @@ class Gateway extends REST
         if (isset($this->_request['acronym']) && isset($this->_request['fullname'])) {
             $data['option'] = 'NEW';
             $data['acronym'] = $this->_request['acronym'];
-            $data['fullname'] =  $this->_request['fullname'];
-            $data['fathers_token'] =  $this->_request['fathers_token'];
+            $data['fullname'] = $this->_request['fullname'];
+            $data['fathers_token'] = $this->_request['fathers_token'];
             $curl = new Curl();
             $response = $curl->post($url, $data);
             if (isset($response['code'])) {
@@ -363,8 +363,8 @@ class Gateway extends REST
         if (isset($this->_request['acronym']) && isset($this->_request['fullname'])) {
             $data['option'] = 'CHECK';
             $data['acronym'] = $this->_request['acronym'];
-            $data['fullname'] =  $this->_request['fullname'];
-            $data['fathers_token'] =  $this->_request['fathers_token'];
+            $data['fullname'] = $this->_request['fullname'];
+            $data['fathers_token'] = $this->_request['fathers_token'];
             $curl = new Curl();
             $response = $curl->post($url, $data);
             if (isset($response['code'])) {
@@ -401,7 +401,7 @@ class Gateway extends REST
         }
         $url = URL_AUTH . '/auth/v1/hierarchy?access_token=' . $actoken;
         $data['option'] = 'DELETE';
-        $data['tokenhierarchy'] =  $tokenh;
+        $data['tokenhierarchy'] = $tokenh;
         $curl = new Curl();
         $response = $curl->post($url, $data);
         if (isset($response['code'])) {
@@ -504,14 +504,14 @@ class Gateway extends REST
         $url = URL_PUB_SUB . '/subscription/v1/catalogs?access_token=' . $actoken;
         $data['option'] = 'NEW';
         $data['catalogname'] = $this->_request['catalogname'];
-        $data['dispersemode'] =  $this->_request['dispersemode'];
-        $data['encryption'] =  $this->_request['encryption'] ? $this->_request['encryption'] : 0 ;
-        $data['fathers_token'] =  $this->_request['fathers_token'];
-        $data['processed'] =  $this->_request['processed'] ? $this->_request['processed'] : 0 ;
+        $data['dispersemode'] = $this->_request['dispersemode'];
+        $data['encryption'] = $this->_request['encryption'] ? $this->_request['encryption'] : 0;
+        $data['fathers_token'] = $this->_request['fathers_token'];
+        $data['processed'] = $this->_request['processed'] ? $this->_request['processed'] : 0;
         $data['group'] = $this->_request['group'];
         $curl = new Curl();
         $response = $curl->post($url, $data);
-        
+
         if (isset($response['code'])) {
             switch ($response['code']) {
                 case 201:
@@ -542,7 +542,7 @@ class Gateway extends REST
         }
         $url = URL_PUB_SUB . '/subscription/v1/catalogs?access_token=' . $actoken;
         $data['option'] = 'DELETE';
-        $data['tokencatalog'] =  $tokencatalog;
+        $data['tokencatalog'] = $tokencatalog;
         $curl = new Curl();
         $response = $curl->post($url, $data);
         if (isset($response['code'])) {
@@ -568,16 +568,16 @@ class Gateway extends REST
     //------- groups ----------------------------
     public function newGroup($actoken)
     {
-        
+
         if ($this->getRequestMethod() != "POST") {
             $msg['message'] = 'Something went wrong.';
             $this->response($this->json($msg), 406);
         }
-        
+
         $url = URL_PUB_SUB . '/subscription/v1/groups?access_token=' . $actoken;
         $data['option'] = 'NEW';
         $data['groupname'] = $this->_request['groupname'];
-        $data['fathers_token'] =  $this->_request['fathers_token'];
+        $data['fathers_token'] = $this->_request['fathers_token'];
         $data["isprivate"] = $this->_request["isprivate"];
         $curl = new Curl();
         $response = $curl->post($url, $data);
@@ -611,7 +611,7 @@ class Gateway extends REST
         }
         $url = URL_PUB_SUB . '/subscription/v1/groups?access_token=' . $actoken;
         $data['option'] = 'DELETE';
-        $data['tokengroup'] =  $tokengroup;
+        $data['tokengroup'] = $tokengroup;
         $curl = new Curl();
         $response = $curl->post($url, $data);
         if (isset($response['code'])) {
@@ -957,15 +957,16 @@ class Gateway extends REST
         }
     }
 
-    public function getPuzzleCatalogResults($tokenuser,$atoken, $puzzle, $father){
-        if ($this->getRequestMethod() != "GET"){
+    public function getPuzzleCatalogResults($tokenuser, $atoken, $puzzle, $father)
+    {
+        if ($this->getRequestMethod() != "GET") {
             $msg['message'] = 'Something went wrong.';
             $this->response($this->json($msg), 406);
         }
-        
-        
+
+
         $url = "http://" . URL_PUB_SUB . '/subscription/v1/visualization?access_token=' . $atoken;
-        
+
         $data['show'] = 'CATALOGS';
         $data['by'] = 'USER';
         $data['view'] = 'results';
@@ -973,10 +974,10 @@ class Gateway extends REST
         $data['tokenuser'] = $tokenuser;
         $data['father'] = $father;
 
-        
+
 
         $curl = new Curl();
-        $response = $curl->post($url,$data);
+        $response = $curl->post($url, $data);
 
         //print_r($response);
 
@@ -988,13 +989,13 @@ class Gateway extends REST
                 default:
                     if (isset($response['data']['message'])) {
                         $this->response($this->json($response['data']), $response['code']);
-                    }else{
+                    } else {
                         $msg['message'] = 'Something went wrong.';
                         $this->response($this->json($msg), 500);
                     }
                     break;
             }
-        }else{
+        } else {
             $msg['message'] = 'Something went wrong.';
             $this->response($this->json($msg), 500);
         }
@@ -1109,7 +1110,7 @@ class Gateway extends REST
         $data['tokenuser'] = $tokenuser;
         $curl = new Curl();
         $response = $curl->post($url, $data);
-	//print_r($response);
+        //print_r($response);
         if (isset($response['code'])) {
             //$msg['res'] = $response;
             //$this->response($this->json($msg), 200);
@@ -1150,10 +1151,10 @@ class Gateway extends REST
         $data['view'] = 'pub';
         $data['tokenuser'] = $tokenuser;
         $curl = new Curl();
-	//print_r(json_encode($data));
+        //print_r(json_encode($data));
         $response = $curl->post($url, $data);
         //print_r($response);
-	if (isset($response['code'])) {
+        if (isset($response['code'])) {
             switch ($response['code']) {
                 case 200:
                     $this->response($this->json($response['data']), 200);
@@ -1259,7 +1260,7 @@ class Gateway extends REST
             $this->response($this->json($msg), 406);
         }
         $url = URL_PUB_SUB . '/subscription/v1/visualization?access_token=' . $atoken;
-	//echo $url;
+        //echo $url;
         $data['show'] = 'FILES';
         $data['by'] = 'CATALOG';
         $data['tokencatalog'] = $tokenc;
@@ -1330,22 +1331,6 @@ class Gateway extends REST
             $this->response($this->json($msg), 500);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     //------- test for dev ---------------------------

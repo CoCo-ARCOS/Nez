@@ -110,7 +110,6 @@ curl --header "Content-Type: application/json" --request POST --data '{"name":"D
    ![catalogs](./examples/catalogs.png)  
 5. In **Step 4**, define the execution order of your skeletons.  
    ![dag](./examples/dag.png)  
-
 6. Click ```Save``` and provide a name for your solution. You will be redirected to the deployment screen, where you can select the deployment method:  
    - **Compose**: Deploy the solution on a single machine. 
 

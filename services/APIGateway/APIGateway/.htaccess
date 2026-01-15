@@ -5,9 +5,21 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 # auth service
 RewriteCond %{QUERY_STRING} tokenuser=(\w+)
+
+# @section: Auth service
+# @title: List of all users
+# @desc: Get a list of all users in the system.
+# @requires: access_token
+# @method: GET
+# @status: 200
+# @example:
+#   curl -I http://localhost/auth/v1/view/users/all/<access_token>
+# @return: JSON array of user objects
+RewriteRule ^auth/v1/view/users/all/?$ API.php?type=1&access_token=$1 [QSA,NC,L]
+
 RewriteRule ^auth/v1/users/?$ API.php?type=10&tokenuser=$1 [QSA,NC,L]
 RewriteCond %{QUERY_STRING} access_token=(\w+)
- RewriteRule ^auth/v1/view/users/all/?$ API.php?type=1&access_token=$1 [QSA,NC,L]
+
 RewriteRule ^auth/v1/users/?$ API.php?type=11&access_token=$1 [QSA,NC,L]
 RewriteRule ^auth/v1/users/create/?$ API.php?type=13 [NC,L]
 RewriteRule ^auth/v1/users/createfromglobal/?$ API.php?type=16 [NC,L]

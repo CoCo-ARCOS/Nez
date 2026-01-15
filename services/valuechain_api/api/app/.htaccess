@@ -5,7 +5,10 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 RewriteRule ^api/v1/?$ API.php?type=1 [NC,L]
 RewriteCond %{QUERY_STRING} ^access_token=(\w+)$
+
 RewriteRule ^api/v1/users/?$ API.php?type=1001&access_token=%1 [QSA,NC,L]
+
+
 RewriteRule ^api/v1/buildingblocks/?$ API.php?type=2001&access_token=%1 [QSA,NC,L]
 RewriteRule ^api/v1/stages/?$ API.php?type=3001&access_token=%1 [QSA,NC,L]
 RewriteRule ^api/v1/workflows/?$ API.php?type=4001&access_token=%1 [QSA,NC,L]
