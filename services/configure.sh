@@ -147,4 +147,4 @@ curl --header "Content-Type: application/json" \
   "http://${my_ip}:20510/api/v1/buildingblocks?access_token=$tokenuser"
 
 
-printf "\n\nPara diseñar un servicio de eSalud, dirigase a http://${my_ip}:22101/ e inicie sesión con los siguientes datos:\nCorreo electronico: test@test.com\nContraseña: TestUser123."
+printf "\n\nPara diseñar un servicio de eSalud, dirigase a http://${my_ip}:22101/ e inicie sesión con los siguientes datos:\nCorreo electronico: test@test.com\nContraseña: TestUser123.\n"
