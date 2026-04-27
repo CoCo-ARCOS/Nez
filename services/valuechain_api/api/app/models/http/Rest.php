@@ -3,9 +3,9 @@
 */
 class REST {
         
-    public $_allow = array();
+    public $_allow;
     public $_content_type = "application/json";
-    public $_request = array();
+    public $_request;
         
     private $_method = "";      
     private $_code = 200;
@@ -85,10 +85,13 @@ class REST {
             case "DELETE":
                 $query_str = $this->cleanInputs($_GET);
                 $parameters = json_decode(file_get_contents('php://input'), true);
+            
                 $parameters = $this->cleanInputs($parameters);
                 // echo $query_str;
-                // echo $parameters;
+                
                 $this->_request = array_merge($query_str, $parameters);
+                //print_r($this->_request);
+                //$this->_request = 1; 
                 break;
             // case "POST":
             //     $_POST = json_decode(file_get_contents('php://input'), true);

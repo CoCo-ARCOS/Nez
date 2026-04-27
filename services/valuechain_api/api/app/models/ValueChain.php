@@ -2,6 +2,7 @@
 
 require_once "http/Rest.php";
 require_once "http/Curl.php";
+require_once dirname(__FILE__) . '/Log.php';
 
 define('URL_AUTH', getenv("AUTH_HOST"));
 define('URL_PUBSUB', getenv("PUBSUB_HOST"));
@@ -9,6 +10,13 @@ define('URL_PUBSUB', getenv("PUBSUB_HOST"));
 
 class ValueChain extends REST
 {
+
+  private $log;
+
+	public function __construct(){
+    parent::__construct();
+		$this->log = new Log;
+	}
 
   public function home()
   {
@@ -470,6 +478,9 @@ class ValueChain extends REST
     require_once("db/handler.php");
     require_once("workflow.php");
 
+    //print_r($this);
+    //$this->log->lwrite($this->_request['stages']);
+
 
     $timestamp = date('Y-m-d H:i:s');
     $status = 404;
@@ -477,6 +488,10 @@ class ValueChain extends REST
     $id = $this->getUserIdByToken($_GET['access_token']);
 
     $stgs = json_decode($this->_request['stages'], true);
+
+    //$this->log->lwrite(json_decode($this->_request));
+
+    //print_r($this->_request);
 
 
     if (!empty($id)) {
@@ -512,8 +527,6 @@ class ValueChain extends REST
       foreach ($this->_request['requirements'] as $r) {
         $w_h->insertReqInWorkflow($id_w, $r["id"]);
       }
-
-
 
       $status = 201;
       $res['msg'] = 'Workflow created';
@@ -863,7 +876,8 @@ class ValueChain extends REST
     if ($this->getRequestMethod() != 'POST') {
       $this->response($this->json($res), 406);
     }
-    require_once("db/handler.php");
+    require_once($this->_request);
+    
     $w_h = new Workflows();
     $s = new Stages();
     $idw = $this->_request['id'];
