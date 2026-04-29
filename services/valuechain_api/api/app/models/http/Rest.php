@@ -7,7 +7,7 @@ class REST {
     public $_content_type = "application/json";
     public $_request;
         
-    private $_method = "";      
+    private $_method;      
     private $_code = 200;
         
     public function __construct() {
@@ -77,7 +77,7 @@ class REST {
     }
         
     private function inputs() {
-        // echo file_get_contents('php://input');
+        $this->_method = $this->getRequestMethod();
         switch($this->getRequestMethod()) {
             case "POST":
             case "PUT":
@@ -90,8 +90,7 @@ class REST {
                 // echo $query_str;
                 
                 $this->_request = array_merge($query_str, $parameters);
-                //print_r($this->_request);
-                //$this->_request = 1; 
+
                 break;
             // case "POST":
             //     $_POST = json_decode(file_get_contents('php://input'), true);

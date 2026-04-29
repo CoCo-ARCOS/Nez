@@ -148,8 +148,10 @@ if (isset($_POST['type'])) {
 		$response = $curl->get($url);
 		echo json_encode(["workflow_data" => $response, "catalogs" => $response_sus]);
 	} else if ($_POST["type"] == "deployPuzzle" && isset($_POST["id"])) {
+		
 		$curl = new Curl();
 		$url = "http://" . VALUE_CHAIN_API . "/api/v1/workflows/run?access_token=" . $_SESSION['access_token'] . "&tokenuser=" . $_SESSION['tokenuser'];
+		//echo $url;
 		$response = $curl->post($url, ["id" => $_POST["id"], "platform" => $_POST["platform"]]);
 		#echo json_encode(["id" => $_POST["id"], "platform" => $_POST["platform"]]);
 		//print_r($response);

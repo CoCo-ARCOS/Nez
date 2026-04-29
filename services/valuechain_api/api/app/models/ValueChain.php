@@ -873,10 +873,12 @@ class ValueChain extends REST
     if (!isset($_GET['access_token'])) {
       $this->response($this->json($res), 400);
     }
+    
+
     if ($this->getRequestMethod() != 'POST') {
       $this->response($this->json($res), 406);
     }
-    require_once($this->_request);
+    require_once("db/handler.php");
     
     $w_h = new Workflows();
     $s = new Stages();

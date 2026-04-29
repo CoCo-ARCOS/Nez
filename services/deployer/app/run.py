@@ -33,6 +33,7 @@ def deploy():
   print(args, flush=True)
   sp = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
   sp.wait()
+  
   if sp.returncode == 0:
     s = status.HTTP_200_OK
     res['msg'] = 'deployed'
