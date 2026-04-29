@@ -29,10 +29,10 @@
       dataType: 'json',
       beforeSend: function () {
         $("#divOverlayDeploy").show();
-        var registro = new Date().toLocaleString();
+        /*var registro = new Date().toLocaleString();
         var t = $("#deploymentsTable").DataTable();
         var buttonAction = '<div class="btn-group"><a type="button" class="btn btn-default" disabled>See logs</a><button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" role="menu"><a class="dropdown-item" >See logs</a></div></div>';
-        t.row.add([0, registro, platform, "Deploying...", buttonAction]).draw();
+        t.row.add([0, registro, platform, "Deploying...", buttonAction]).draw();*/
       },
       success: function (data) {
         console.log(data);
@@ -79,10 +79,10 @@
       beforeSend: function () {
         console.log("entro");
         $("#divOverlayExecution").show();
-        var registro = new Date().toLocaleString();
+        /*var registro = new Date().toLocaleString();
         var t = $("#executionsTable").DataTable();
         var buttonAction = '<div class="btn-group"><a type="button" class="btn btn-default" disabled>See logs</a><button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown"><span class="sr-only">Toggle Dropdown</span></button><div class="dropdown-menu" role="menu"><a class="dropdown-item" >See logs</a></div></div>';
-        t.row.add(["", registro, "", "Executing...", buttonAction]).draw();
+        t.row.add(["", registro, "", "Executing...", buttonAction]).draw();*/
       },
       success: function (data) {
         $("#divOverlayExecution").hide();
