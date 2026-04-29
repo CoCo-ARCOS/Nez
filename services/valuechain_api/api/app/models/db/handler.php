@@ -592,6 +592,24 @@ class Stages{
 		return $res;
 	}
 
+	public function getPathSources($id){
+		$res = [];
+		try{
+			$sql = "SELECT distinct ss.stage_id, ss.source_type, path  from stage_source as ss inner join source_type as st on ss.source_type = st.id inner join workflows_source_path as wsb on wsb.id = ss.id where ss.stage_id = :si;";
+			// TODO: get also subscribed stages
+			$stmt = $this->db->prepare($sql);
+			$stmt->bindParam(":si", $id, PDO::PARAM_INT);
+			$stmt->execute();
+			if ($stmt->rowCount() > 0) {
+				$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			}
+		} catch (PDOException $e) {
+			$this->log->lwrite($e->getMessage());
+		}
+		$stmt = null;
+		return $res;
+	}
+
 	public function getBBSinks($id){
 		$res = [];
 		try{

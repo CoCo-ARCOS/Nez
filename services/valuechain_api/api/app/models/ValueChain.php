@@ -907,6 +907,7 @@ class ValueChain extends REST
       $stagesStr .= $value['name'] . " ";
       $sources = $s->getBBSources($value["id"]);
       $catalog_sources = $s->getCatalogSources($value["id"]);
+      $path_sources = $s->getPathSources($value["id"]);
       $sinks = $s->getBBSinks($value["id"]);
       $sources_str = "";
       $sinks_str = "";
@@ -914,6 +915,10 @@ class ValueChain extends REST
 
       foreach ($sources as $stg) {
         $sources_str .= $stg["stage"] . " ";
+      }
+
+      foreach ($path_sources as $src) {
+        $sources_str .= $src["path"] . " ";
       }
 
       foreach ($catalog_sources as $stg) {
