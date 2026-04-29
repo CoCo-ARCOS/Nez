@@ -170,6 +170,31 @@ class SourceCatalog{
 		return null;
 	}
 
+	public function insertStageSourcePath($source_path, $stage_id){
+		$res = [];
+		try{
+			$sql = "INSERT INTO stage_source(source_type, stage_id) VALUES(2, :wi) RETURNING id";
+			// TODO: get also subscribed BB
+			$stmt = $this->db->prepare($sql);
+			$stmt->bindParam(":wi", $stage_id, PDO::PARAM_INT);
+			$stmt->execute();
+			if ($stmt->rowCount() > 0) {
+				$res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				$id_ds = $res[0]["id"];
+				$sql = "INSERT INTO workflows_source_path(id, path) VALUES(:id, :sc)";
+				$stmt = $this->db->prepare($sql);
+				$stmt->bindParam(":id", $id_ds, PDO::PARAM_INT);
+				$stmt->bindParam(":sc", $source_path, PDO::PARAM_STR);
+				$stmt->execute();
+				return $id_ds;
+			}
+		} catch (PDOException $e) {
+			$this->log->lwrite($e->getMessage());
+		}
+		$stmt = null;
+		return null;
+	}
+
 	public function insertSource($token_catalog, $workflow_id){
 		$res = [];
 		try{

@@ -490,10 +490,6 @@ class ValueChain extends REST
 
     $stgs = json_decode($this->_request['stages'], true);
 
-    //$this->log->lwrite(json_decode($this->_request));
-
-    //print_r($this->_request);
-
 
     if (!empty($id)) {
       $sc = new SourceCatalog();
@@ -502,7 +498,6 @@ class ValueChain extends REST
       $w->__SET('name', $this->_request['name']);
       $w->__SET('status', $this->_request['status']);
       $w->__SET('created', $timestamp);
-      #echo "hola";
 
       $w_h = new Workflows();
       $id_w = $w_h->createWorkflow($w);
@@ -514,6 +509,9 @@ class ValueChain extends REST
         if ($s["parent"] == -1) {
           foreach ($this->_request['catalogs'] as $c) {
             $sc->insertStageSourceCatalog($c["token"], $id_s);
+          }
+          if ( isset($this->_request['source_path']) ) {
+            $sc->insertStageSourcePath($this->_request['source_path'], $id_s);
           }
         } else {
           $sc->insertStageSourceBB($stgs[$s["parent"]]["block_id"], $id_s);
