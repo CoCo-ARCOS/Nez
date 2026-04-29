@@ -13,10 +13,11 @@ class ValueChain extends REST
 
   private $log;
 
-	public function __construct(){
+  public function __construct()
+  {
     parent::__construct();
-		$this->log = new Log;
-	}
+    $this->log = new Log;
+  }
 
   public function home()
   {
@@ -442,7 +443,7 @@ class ValueChain extends REST
     $this->response($this->json($res), $status);
   }
 
- public function insert_source_catalog($catalog)
+  public function insert_source_catalog($catalog)
   {
     require_once("db/handler.php");
   }
@@ -835,7 +836,7 @@ class ValueChain extends REST
     $last_d = $d->getLastDeployment($idw);
     if (count($last_d) > 0) {
       $last_d = $last_d[0];
-      
+
       $curl = new Curl();
       $vc_pair = getenv("DEPLOYER_HOST") . ":" . strval(getenv("DEPLOYER_PORT"));
       $url = 'http://' . $vc_pair . '/stacks/stop';
@@ -873,13 +874,13 @@ class ValueChain extends REST
     if (!isset($_GET['access_token'])) {
       $this->response($this->json($res), 400);
     }
-    
+
 
     if ($this->getRequestMethod() != 'POST') {
       $this->response($this->json($res), 406);
     }
     require_once("db/handler.php");
-    
+
     $w_h = new Workflows();
     $s = new Stages();
     $idw = $this->_request['id'];

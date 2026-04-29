@@ -63,6 +63,7 @@ docker compose exec pub_sub sh -c "mkdir -p /var/www/html/log/ && chown -R www-d
 docker compose exec value-chain-api sh -c "mkdir -p /var/www/html/logs/ &&  chown -R www-data /var/www/html/geb/cfg-files"
 docker compose exec value-chain-api sh -c "mkdir -p /var/www/html/logs/ &&  chown -R www-data /var/www/html/logs"
 docker compose exec value-chain-api sh -c "mkdir -p /var/www/html/logs/deployment &&  chown -R www-data /var/www/html/logs/deployment"
+docker compose exec value-chain-api sh -c "mkdir -p /var/www/html/logs/execution &&  chown -R www-data /var/www/html/logs/execution"
 docker compose exec frontend sh -c "mkdir -p /var/www/html/painal/downloads &&  chown -R www-data /var/www/html/painal/downloads"
 
 curl http://$my_ip:20505/configNodes.php?deleteNodes=true
