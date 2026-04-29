@@ -7,7 +7,7 @@ void Launcher::execute(string mode)
 	this->coupling();
 	this->buildYML(mode);
 
-	compose_command = "docker-compose --log-level ERROR -p " + this->workpath_container + "/results/" + this->workflow->getWorkdir() +
+	compose_command = "docker-compose --log-level ERROR -p " + this->workflow->getName() +
 					  " -f " + this->workpath_container + "/results/" + this->workflow->getWorkdir() + "/docker-compose.yml ";
 
 	//Deploy YML
@@ -30,7 +30,7 @@ void Launcher::stop(string mode)
 	this->coupling();
 	this->buildYML(mode);
 
-	compose_command = "docker-compose --log-level ERROR -p " + pwdStr + "/results/" + this->workflow->getWorkdir() +
+	compose_command = "docker-compose --log-level ERROR -p " + this->workflow->getName() +
 					  " -f " + pwdStr + "/results/" + this->workflow->getWorkdir() + "/docker-compose.yml down";
 
 	system(compose_command.c_str());
@@ -54,7 +54,7 @@ void Launcher::start(string mode)
 	}
 	else
 	{
-		compose_command = "docker-compose --log-level ERROR -p " + this->workpath_container + "/results/" + this->workflow->getWorkdir() +
+		compose_command = "docker-compose --log-level ERROR -p " + this->workflow->getName() +
 						  " -f " + this->workpath_container + "/results/" + this->workflow->getWorkdir() + "/docker-compose.yml ";
 		up_command = compose_command + " up -d --build";
 		// //search fo replicas
@@ -82,7 +82,7 @@ void Launcher::start(string mode)
 	}
 
 	Logger("LAUCHER: to shutdown the containers execute  \n\n" + down_command + "\n\n", true);
-	printJSON(compose_command);
+	//printJSON(compose_command);
 }
 
 void Launcher::printMonitoringFile(vector<string> containers)
@@ -222,7 +222,7 @@ void Launcher::printJSON(string compose_cmd_base)
 	json_file << json << endl;
 	json_file.close();
 
-	generateNormas(pwdStr + "/results/" + this->workflow->getWorkdir() + "/stages.json");
+	//generateNormas(pwdStr + "/results/" + this->workflow->getWorkdir() + "/stages.json");
 	//printMonitoringFile(containers_names);
 }
 
@@ -377,7 +377,7 @@ void Launcher::getVolumes(BuildingBlock *b, string target, set<vector<string>> &
 
 void Launcher::buildYML(string mode)
 {
-	string yml_base = {"version: \'3\'\nservices:\n"};
+	string yml_base = {"version: \'3\'\nnetworks:\n"};
 	string links, auxPath, pwdStr;
 	ofstream yml;
 	vector<string> ports;
@@ -385,6 +385,7 @@ void Launcher::buildYML(string mode)
 	Single auxSingle;
 	Pattern auxPatt;
 	set<vector<string>> volumes;
+	int i = 19;
 
 	pwdStr = this->workpath;
 
@@ -393,6 +394,18 @@ void Launcher::buildYML(string mode)
 	yml.open(this->workpath_container + "/results/" + this->workflow->getWorkdir() + "/docker-compose.yml");
 
 	ifstream test;
+
+	for (auto x : singles)
+	{
+		yml_base += "    net_" + x.second->getName() + ": \n";
+		yml_base += "        driver: bridge\n";
+		//yml_base += "        ipam:\n";
+		//yml_base += "            config:\n";
+		//yml_base += "                - subnet: 172." + ::to_string(i) + ".0.0/24\n";
+		i++;
+	}
+
+	yml_base += "\nservices:\n";
 
 	for (auto x : singles)
 	{
@@ -408,6 +421,7 @@ void Launcher::buildYML(string mode)
 			yml_base += "        image: " + x.second->getImage() + "\n";
 		}
 
+		yml_base += "        networks: [net_" + x.second->getName() + "]\n";
 		yml_base += "        restart: always\n";
 		yml_base += "        expose:\n            - \"5000/tcp\"\n";
 		yml_base += "        volumes:\n";
@@ -453,6 +467,7 @@ void Launcher::buildYML(string mode)
 
 			yml_base += "        restart: always\n";
 			yml_base += "        expose:\n            - \"5000/tcp\"\n";
+			yml_base += "        networks: [net_" + x.second->getWorker()->getName() + "]\n";
 			yml_base += "        volumes:\n";
 			yml_base += "            - \"" + pwdStr + "/results/" + this->workflow->getWorkdir() + ":" + pwdStr + "/results/" + this->workflow->getWorkdir() + "\"\n";
 
