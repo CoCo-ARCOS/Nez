@@ -5,8 +5,8 @@
   const urlParams = new URLSearchParams(queryString);
   const deploy = urlParams.get('deploy');
 
-  if(deploy != null){
-    if(deploy == "on"){
+  if (deploy != null) {
+    if (deploy == "on") {
       $("#modal-deployStructure").modal('show');
     }
   }
@@ -21,7 +21,7 @@
     platform = $("#slPlatform").val();
     puzzle_name = $("#txtPuzzleName").val();
     console.log({ "id": id, "type": "deployPuzzle", "platform": platform });
-    
+
     $.ajax({
       type: "POST",
       url: "../../includes/controllers/controller.php",
@@ -51,7 +51,7 @@
           toastr.error('Error deploying puzzle');
           var temp = table.row(table_length).data([data.data.id_deployment, data.data.deployed, data.data.deployment_mode, "Error", buttonAction]).draw();
         }
-        
+
         //t.row.add(["", registro, platform, "Deploying...", buttonAction]).draw( false );
 
       }, error: function (data) { //se lanza cuando ocurre un error
@@ -74,7 +74,7 @@
     $.ajax({
       type: "POST",
       url: "../../includes/controllers/controller.php",
-      data: { "id": id, "type": "executePuzzle", "puzzle_name":puzzle_name },
+      data: { "id": id, "type": "executePuzzle", "puzzle_name": puzzle_name },
       dataType: 'json',
       beforeSend: function () {
         console.log("entro");
@@ -123,7 +123,7 @@
     $.ajax({
       type: "POST",
       url: "../../includes/controllers/controller.php",
-      data: { "id": id, "type": "stopPuzzle", "puzzle_name":puzzle_name },
+      data: { "id": id, "type": "stopPuzzle", "puzzle_name": puzzle_name },
       dataType: 'json',
       beforeSend: function () {
         console.log("entro");
@@ -133,7 +133,7 @@
         $("#divOverlayStop").hide();
         $("#modal-stopStructure").modal('hide');
         console.log(data);
-        
+
         if (data.code == 200) {
           toastr.success('Puzzle stoped');
         } else {
@@ -188,13 +188,13 @@ function showLogs(id, puzzle_name, folder) {
 }
 
 function downloadLogs() {
-  
+
   var elHtml = document.getElementById("divLogs").innerHTML;
   var link = document.createElement('a');
   mimeType = 'text/plain';
 
   link.setAttribute('download', "logs.txt");
-  link.setAttribute('href', 'data:' + mimeType + ';charset=utf-8,' + encodeURIComponent(elHtml.replace("<br>",/\n/g)));
+  link.setAttribute('href', 'data:' + mimeType + ';charset=utf-8,' + encodeURIComponent(elHtml.replace("<br>", /\n/g)));
   link.click();
 }
 

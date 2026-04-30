@@ -64,7 +64,7 @@ unordered_map<string, Single *> ConfigParser::searchSingles(vector<string> lines
                 }
             }
         }
-        else if (i.compare("[BB]") == 0) //New BB found, next lines are the BB metadata
+        else if (i.compare("[BB]") == 0) // New BB found, next lines are the BB metadata
         {
             found = !found;
         }
@@ -90,7 +90,7 @@ unordered_map<string, Pattern *> ConfigParser::searchPatterns(vector<string> lin
             if (i.compare("[END]") == 0)
             {
                 found = !found;
-                //cout << singles[workerName]->getName()  << endl;
+                // cout << singles[workerName]->getName()  << endl;
                 patterns[name] = new Pattern(name, nWorkers, lb, lbmode, pattern,
                                              singles[workerName], inputs, outputs);
                 this->bbs[name] = patterns[name];
@@ -102,7 +102,7 @@ unordered_map<string, Pattern *> ConfigParser::searchPatterns(vector<string> lin
                 if (v.size() == 2)
                 {
                     v[0] = trim(v[0]);
-                    //cout << v[0] << " " << v[0].compare("command") << endl;
+                    // cout << v[0] << " " << v[0].compare("command") << endl;
                     if (v[0].compare("name") == 0)
                     {
                         name = trim(v[1]);
@@ -141,7 +141,7 @@ unordered_map<string, Pattern *> ConfigParser::searchPatterns(vector<string> lin
                 }
             }
         }
-        else if (i.compare("[PATTERN]") == 0) //New Pattern found, next lines are the Pattern metadata
+        else if (i.compare("[PATTERN]") == 0) // New Pattern found, next lines are the Pattern metadata
         {
             found = !found;
         }
@@ -157,9 +157,9 @@ unordered_map<string, Stage *> ConfigParser::searchStages(vector<string> lines,
     unordered_map<string, Stage *> stages;
     string name, basepath;
     vector<string> inputs, outputs, transformationNames;
-    
+
     basepath = this->workpath;
-    basepath +=  + "/results/";
+    basepath += +"/results/";
     found = false;
 
     for (auto &i : lines)
@@ -169,7 +169,7 @@ unordered_map<string, Stage *> ConfigParser::searchStages(vector<string> lines,
             if (i.compare("[END]") == 0)
             {
                 found = !found;
-                //cout << name << command << input << outputs << endl;
+                // cout << name << command << input << outputs << endl;
                 stages[name] = new Stage(name, inputs, outputs, transformationNames);
                 this->bbs[name] = stages[name];
                 Logger("PARSER: Configured stage " + name, true);
@@ -181,8 +181,8 @@ unordered_map<string, Stage *> ConfigParser::searchStages(vector<string> lines,
                 {
                     v[0] = trim(v[0]);
                     boost::replace_all(v[1], "@PWD", basepath);
-                    
-                    //cout << v[0] << " " << v[0].compare("command") << endl;
+
+                    // cout << v[0] << " " << v[0].compare("command") << endl;
                     if (v[0].compare("name") == 0)
                     {
                         name = trim(v[1]);
@@ -207,7 +207,7 @@ unordered_map<string, Stage *> ConfigParser::searchStages(vector<string> lines,
                 }
             }
         }
-        else if (i.compare("[STAGE]") == 0) //New Pattern found, next lines are the Pattern metadata
+        else if (i.compare("[STAGE]") == 0) // New Pattern found, next lines are the Pattern metadata
         {
             found = !found;
         }
@@ -220,7 +220,7 @@ Workflow *ConfigParser::searchWorkflow(vector<string> lines)
     bool found;
     string name;
     vector<string> inputs, outputs, transformationNames;
-    vector<Catalog*> catalogs;
+    vector<Catalog *> catalogs;
     Workflow *workflow;
 
     found = false;
@@ -241,7 +241,7 @@ Workflow *ConfigParser::searchWorkflow(vector<string> lines)
                 if (v.size() == 2)
                 {
                     v[0] = trim(v[0]);
-                    //cout << v[0] << " " << v[0].compare("command") << endl;
+                    // cout << v[0] << " " << v[0].compare("command") << endl;
                     if (v[0].compare("name") == 0)
                     {
                         name = trim(v[1]);
@@ -261,14 +261,18 @@ Workflow *ConfigParser::searchWorkflow(vector<string> lines)
                     else if (v[0].compare("catalogs") == 0)
                     {
                         vector<string> strCatalogs = explode(trim(v[1]), ' ');
-                        for(auto &sc:strCatalogs){
+                        for (auto &sc : strCatalogs)
+                        {
                             vector<string> catalogParts = explode(sc, ':');
-                            
-                            if(catalogParts.size() == 2){
+
+                            printf("\n\n\n CATALOGS ENCONTRADOS EN EL WORKFLOW \n\n\n");
+                            printf("%s\n", sc.c_str());
+
+                            if (catalogParts.size() == 2)
+                            {
                                 catalogs.push_back(new Catalog(catalogParts[0], catalogParts[1]));
                             }
                         }
-                        
                     }
                 }
                 else
@@ -278,7 +282,7 @@ Workflow *ConfigParser::searchWorkflow(vector<string> lines)
                 }
             }
         }
-        else if (i.compare("[WORKFLOW]") == 0) //New Pattern found, next lines are the Pattern metadata
+        else if (i.compare("[WORKFLOW]") == 0) // New Pattern found, next lines are the Pattern metadata
         {
             found = !found;
         }
@@ -286,7 +290,7 @@ Workflow *ConfigParser::searchWorkflow(vector<string> lines)
     return workflow;
 }
 
-int ConfigParser::readConfig(string filepath, string apikey,  string token, string access)
+int ConfigParser::readConfig(string filepath, string apikey, string token, string access)
 {
     ifstream inFile;
     string line;
@@ -308,7 +312,7 @@ int ConfigParser::readConfig(string filepath, string apikey,  string token, stri
 
     inFile.close();
 
-    //Search for singles
+    // Search for singles
     this->singles = this->searchSingles(lines);
     this->patterns = this->searchPatterns(lines, singles);
     this->stages = this->searchStages(lines, singles, patterns);

@@ -50,6 +50,7 @@ def run():
   if not rj.get('wf_name'):
     return jsonify(res), s
   c = os.sep.join([os.getcwd(), 'cfg-files', rj.get('wf_name') + '.cfg'])
+  print(rj, flush=True)
   args = './puzzlemesh/puzzlemesh -c '+c+' -m ' + rj.get('deployment_mode') + " -exec T -api " + rj.get('apikey') + " -access " + rj.get('access_token')+ " -token " + rj.get('tokenuser')
   print(args, flush=True)
   sp = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)

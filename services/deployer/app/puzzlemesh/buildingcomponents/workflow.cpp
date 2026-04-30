@@ -1,6 +1,6 @@
 #include "workflow.h"
 
-void Workflow::setStages(vector<Stage*> stages)
+void Workflow::setStages(vector<Stage *> stages)
 {
     this->stages = stages;
 }
@@ -21,16 +21,15 @@ void Workflow::setLast(Stage last)
     this->last = last;
 }
 
-vector<Stage*> Workflow::getStages()
+vector<Stage *> Workflow::getStages()
 {
     return this->stages;
 }
 
-Stage* Workflow::getStage(int idx)
+Stage *Workflow::getStage(int idx)
 {
     return this->stages.at(idx);
 }
-
 
 Stage Workflow::getStart()
 {
@@ -44,114 +43,125 @@ Stage Workflow::getLast()
 
 vector<string> Workflow::getStagesSrt()
 {
-  return this->stagesStr;
+    return this->stagesStr;
 }
 
-vector<Catalog*> Workflow::getCatalogs()
+vector<Catalog *> Workflow::getCatalogs()
 {
-  return this->catalogKeys;
+    return this->catalogKeys;
 }
 
-
-void Workflow::execute(const string& workdirbase, const string& compose_command)
+void Workflow::execute(const string &workdirbase, const string &compose_command)
 {
     Logger(this->name + ": executing ", true);
     vector<thread> threadsvec;
     vector<string> auxStrs;
     Catalog *c = nullptr;
 
-    chrono::milliseconds ms = chrono::duration_cast< chrono::milliseconds >(
-            chrono::system_clock::now().time_since_epoch()
-    );
+    chrono::milliseconds ms = chrono::duration_cast<chrono::milliseconds>(
+        chrono::system_clock::now().time_since_epoch());
 
-    if(this->catalogKeys.size() > 1)
+    printf("\n\n\n DESCARGAR DATOS DE SKYCDS 222 \n\n\n %lu\n\n\n", this->catalogKeys.size());
+
+    if (this->catalogKeys.size() > 0)
     {
         c = this->api->createCat(this->catalogKeys[0]->getName() + "/" + this->getName() + "-" + ::to_string(ms.count()), this->catalogKeys[0]->getToken(), true);
     }
 
-    for(auto s : this->stages)
+    for (auto s : this->stages)
     {
         threadsvec.emplace_back(&Stage::execute, s, workdirbase + "/" + this->workdir, auxStrs, compose_command, this->api, c);
-    //s->execute(workdirbase + "/" + this->workdir);
+        // s->execute(workdirbase + "/" + this->workdir);
     }
 
     for (auto &t : threadsvec)
     {
-      t.join();
+        t.join();
     }
 
     ofstream myfile;
 
-    if(c != nullptr)
+    if (c != nullptr)
     {
-        myfile.open (workdirbase +  "/" + this->workdir +  "/catalogs.txt", std::ios_base::app);
+        myfile.open(workdirbase + "/" + this->workdir + "/catalogs.txt", std::ios_base::app);
 
-        for(auto s : this->stages)
+        for (auto s : this->stages)
         {
-            myfile << s->getName() << "," << s->getCatalog()->getToken() << ","  << s->getCatalog()->getName() << "\n";
+            myfile << s->getName() << "," << s->getCatalog()->getToken() << "," << s->getCatalog()->getName() << "\n";
         }
 
         myfile.close();
     }
 }
 
-void Workflow::downloadInputData(const string& workdirbase)
+void Workflow::downloadInputData(const string &workdirbase)
 {
     string outDir = workdirbase + "/" + this->workdir;
     ofstream myfile;
 
     cout << outDir << endl;
-    myfile.open (outDir + "/downloads.txt");
+    myfile.open(outDir + "/downloads.txt");
 
-    
+    printf("\n\n\n DESCARGAR DATOS DE SKYCDS 111 \n\n\n %lu\n\n\n", this->catalogKeys.size());
+
     for (auto catalog : this->catalogKeys)
     {
-        string java_down_cmd = "java -jar Download.jar " + token + " " + apikey + " " + catalog->getToken() \
-            + " 2 1 cinves '" + outDir + "/catalogs" + "/" + catalog->getName() + "' " + access + " true false 1";
+        printf("\n\n\n DESCARGAR DATOS DE SKYCDS  %s\n\n\n", catalog->getName().c_str());
+        string java_down_cmd = "java -jar Download.jar " + token + " " + apikey + " " + catalog->getToken() + " 2 1 cinves '" + outDir + "/catalogs" + "/" + catalog->getName() + "' " + access + " true false 1";
         cout << java_down_cmd << endl;
-        string output =  this->exec_cmd(java_down_cmd.c_str());
-        //system(java_down_cmd.c_str());
+        string output = this->exec_cmd(java_down_cmd.c_str());
+        // system(java_down_cmd.c_str());
         myfile << output + "\n\n";
     }
     myfile.close();
 }
 
-const string &Workflow::getApikey() const {
+const string &Workflow::getApikey() const
+{
     return apikey;
 }
 
-void Workflow::setApikey(const string &apikey) {
+void Workflow::setApikey(const string &apikey)
+{
     Workflow::apikey = apikey;
 }
 
-const string &Workflow::getToken() const {
+const string &Workflow::getToken() const
+{
     return token;
 }
 
-void Workflow::setToken(const string &token) {
+void Workflow::setToken(const string &token)
+{
     Workflow::token = token;
 }
 
-const string &Workflow::getAccess() const {
+const string &Workflow::getAccess() const
+{
     return access;
 }
 
-void Workflow::setAccess(const string &access) {
+void Workflow::setAccess(const string &access)
+{
     Workflow::access = access;
 }
 
-APISkyCDS *Workflow::getApi() const {
+APISkyCDS *Workflow::getApi() const
+{
     return api;
 }
 
-void Workflow::setApi(APISkyCDS *api) {
+void Workflow::setApi(APISkyCDS *api)
+{
     Workflow::api = api;
 }
 
-const string &Workflow::getId() const {
+const string &Workflow::getId() const
+{
     return id;
 }
 
-void Workflow::setId(const string &id) {
+void Workflow::setId(const string &id)
+{
     Workflow::id = id;
 }

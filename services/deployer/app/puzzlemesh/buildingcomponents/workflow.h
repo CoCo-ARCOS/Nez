@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "stage.h"
-//#include "catalog.h"
+// #include "catalog.h"
 #include "../logs/logs.h"
 #include "../skycds/Catalog.h"
 
@@ -14,18 +14,18 @@ class Workflow : public BuildingBlock
 private:
   vector<Stage *> stages;
   vector<string> stagesStr;
-  vector<Catalog*> catalogKeys;
+  vector<Catalog *> catalogKeys;
   Stage start;
   Stage last;
   string apikey, token, access, id;
   APISkyCDS *api;
 
 public:
-  Workflow() : BuildingBlock(WORKFLOW){};
+  Workflow() : BuildingBlock(WORKFLOW) {};
   Workflow(string name) : BuildingBlock(name, WORKFLOW) {}
   Workflow(string name, vector<string> sourcesStr, vector<string> sinksStr)
       : BuildingBlock(name, WORKFLOW, sourcesStr, sinksStr) {}
-  Workflow(string name, vector<string> sourcesStr, vector<string> sinksStr, vector<string> stagesStr, vector<Catalog*> catalogs)
+  Workflow(string name, vector<string> sourcesStr, vector<string> sinksStr, vector<string> stagesStr, vector<Catalog *> catalogs)
       : BuildingBlock(name, WORKFLOW, sourcesStr, sinksStr)
   {
     this->stagesStr = stagesStr;
@@ -42,29 +42,29 @@ public:
   Stage getStart();
   Stage getLast();
 
-    const string &getApikey() const;
+  const string &getApikey() const;
 
-    void setApikey(const string &apikey);
+  void setApikey(const string &apikey);
 
-    const string &getToken() const;
+  const string &getToken() const;
 
-    void setToken(const string &token);
+  void setToken(const string &token);
 
-    const string &getAccess() const;
+  const string &getAccess() const;
 
-    void setAccess(const string &access);
+  void setAccess(const string &access);
 
-    vector<Catalog*> getCatalogs();
-    void execute(const string& workdirbase, const string& compose_command);
-    void downloadInputData(const string& workdirbase);
+  vector<Catalog *> getCatalogs();
+  void execute(const string &workdirbase, const string &compose_command);
+  void downloadInputData(const string &workdirbase);
 
-    APISkyCDS *getApi() const;
+  APISkyCDS *getApi() const;
 
-    void setApi(APISkyCDS *api);
+  void setApi(APISkyCDS *api);
 
-    const string &getId() const;
+  const string &getId() const;
 
-    void setId(const string &id);
+  void setId(const string &id);
 };
 
 #endif

@@ -130,8 +130,12 @@ void Stage::execute(const string& workdirbase,  const vector<string>& sourcesPat
     outputsPaths.push_back(workdirbase + "/" + this->workdir);
   }
 
+
+  printf("\n\n\n STAGE DESCARGAR DATOS DE SKYCDS 333 \n\n\n \n\n\n");
+  printf("%d\n", father != nullptr);
   if(father != nullptr)
   {
+    printf("\n\n\n STAGE CARGAR DATOS EN SKYCDS \n\n\n");
     this->uploadData(api, workdirbase, father);
   }
   this->state = COMPLETED;
